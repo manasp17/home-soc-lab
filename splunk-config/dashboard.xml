@@ -1,0 +1,114 @@
+<dashboard>
+  <label>Home SOC Lab</label>
+  <row>
+    <panel>
+      <title>Live Packet Count</title>
+      <single>
+        <search>
+          <query>index=main sourcetype=packet_analyzer | stats count</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+          <refresh>10s</refresh>
+        </search>
+        <option name="underLabel">packets (last 15 min)</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Open Port Count</title>
+      <single>
+        <search>
+          <query>index=main sourcetype=vuln_scanner | stats dc(port) as open_ports</query>
+          <earliest>-24h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="underLabel">unique ports found</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Active Alerts</title>
+      <single>
+        <search>
+          <query>index=main sourcetype=packet_analyzer alert_type=ALERT | stats count</query>
+          <earliest>-1h</earliest>
+          <latest>now</latest>
+          <refresh>10s</refresh>
+        </search>
+        <option name="underLabel">alerts (last 1h)</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Protocol Breakdown</title>
+      <chart>
+        <search>
+          <query>index=main sourcetype=packet_analyzer protocol=* | stats count by protocol</query>
+          <earliest>-1h</earliest>
+          <latest>now</latest>
+          <refresh>15s</refresh>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.axisTitleX.text">Protocol</option>
+        <option name="charting.axisTitleY.text">Packet Count</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Traffic Timeline with Alert Spikes</title>
+      <chart>
+        <search>
+          <query>index=main sourcetype=packet_analyzer | timechart span=1m count by alert_type</query>
+          <earliest>-1h</earliest>
+          <latest>now</latest>
+          <refresh>15s</refresh>
+        </search>
+        <option name="charting.chart">area</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Most Active Source IPs</title>
+      <table>
+        <search>
+          <query>index=main sourcetype=packet_analyzer src_ip=* | stats count as "Packet Count" by src_ip | sort -"Packet Count" | head 10</query>
+          <earliest>-1h</earliest>
+          <latest>now</latest>
+          <refresh>15s</refresh>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Real-Time Alert Feed</title>
+      <table>
+        <search>
+          <query>index=main sourcetype=packet_analyzer alert_type=ALERT | table _time alert_msg src_ip | sort -_time | head 20</query>
+          <earliest>-1h</earliest>
+          <latest>now</latest>
+          <refresh>10s</refresh>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Risk-Ranked Vulnerability Findings</title>
+      <table>
+        <search>
+          <query>index=main sourcetype=vuln_scanner port=* | dedup port sortby -_time | table scan_time port service risk_level vuln_notes | sort risk_level</query>
+          <earliest>-24h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>High-Risk Service Alerts</title>
+      <table>
+        <search>
+          <query>index=main sourcetype=vuln_scanner risk_level=HIGH | dedup port sortby -_time | table port service vuln_notes | sort -port</query>
+          <earliest>-24h</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+</dashboard>

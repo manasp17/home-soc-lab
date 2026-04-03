@@ -1,0 +1,30 @@
+# Splunk Field Extraction — vuln_scanner sourcetype
+# Settings → Fields → Field Extractions → New Extraction
+#
+# Destination app : search
+# Apply to        : sourcetype
+# Named           : vuln_scanner
+# Type            : Inline (Rex)
+#
+# Captures the following fields from OPEN port lines, banner lines, and scan event lines:
+#   scan_time  — timestamp from the log entry
+#   port       — open port number
+#   service    — service name identified on that port
+#   vuln_notes — vulnerability description and risk context
+#   banner     — HTTP or service banner grabbed from the port
+#   scan_event — scan started / scan complete summary lines
+
+\[(?P<scan_time>[^\]]+)\]\s+(?:OPEN\s+\|\s+Port\s+(?P<port>\d+)\s+\|\s+(?P<service>[^|]+?)\s+\|\s+(?P<vuln_notes>.+)|(?P<scan_event>Scan\s+(?:started|complete)[^$]*)|Banner:\s+(?P<banner>.+))
+
+
+# ── Calculated Field — risk_level ────────────────────────────────
+# Settings → Fields → Calculated Fields → New
+#
+# Destination app : search
+# Apply to        : sourcetype
+# Named           : vuln_scanner
+# Name            : risk_level
+#
+# Eval expression:
+
+if(service="RPC" OR service="SMB", "HIGH", if(service="PostgreSQL" OR service="Printer", "MEDIUM", "LOW"))

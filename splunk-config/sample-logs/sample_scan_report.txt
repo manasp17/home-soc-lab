@@ -1,0 +1,27 @@
+[2026-04-03 17:11:42] Scan started | Target: 127.0.0.1 | Ports: 1-9999
+[2026-04-03 17:12:28] OPEN | Port 135 | RPC | Windows RPC. Common attack vector - restrict externally.
+[2026-04-03 17:12:28] OPEN | Port 445 | SMB | Windows file sharing. Historically exploited (EternalBlue).
+[2026-04-03 17:12:28] OPEN | Port 2015 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:28]        Banner: HTTP/1.0 404 Not Found
+[2026-04-03 17:12:28] OPEN | Port 3213 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:28]        Banner: HTTP/1.1 505 HTTP VERSION NOT SUPPORTED
+[2026-04-03 17:12:28] OPEN | Port 4339 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:28]        Banner: HTTP/1.1 404 Not Found
+[2026-04-03 17:12:28] OPEN | Port 5040 | WinDO | Windows Delivery Optimization service.
+[2026-04-03 17:12:28] OPEN | Port 5432 | PostgreSQL | Database port. Verify it is not exposed externally.
+[2026-04-03 17:12:28] OPEN | Port 6327 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:28]        Banner: HTTP/1.0 400 Bad Request
+[2026-04-03 17:12:28] OPEN | Port 6328 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:28]        Banner: HTTP/1.0 404 Not Found
+[2026-04-03 17:12:28] OPEN | Port 6463 | Discord | Discord local RPC server. Normal if Discord is running.
+[2026-04-03 17:12:28]        Banner: HTTP/1.1 404 Not Found
+[2026-04-03 17:12:28] OPEN | Port 7680 | WUDO | Windows Update Delivery Optimization. Normal on Windows.
+[2026-04-03 17:12:28] OPEN | Port 9010 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:28]        Banner: HTTP/1.1 400 
+[2026-04-03 17:12:28] OPEN | Port 9080 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:29]        Banner: HTTP/1.0 404 Not Found
+[2026-04-03 17:12:29] OPEN | Port 9100 | Printer | Raw printing port. Disable if no printer attached.
+[2026-04-03 17:12:29]        Banner: HTTP/1.1 400 
+[2026-04-03 17:12:29] OPEN | Port 9180 | Unknown | No known vulnerability info.
+[2026-04-03 17:12:29]        Banner: HTTP/1.0 404 Not Found
+[2026-04-03 17:12:29] Scan complete | Open ports: 15 | High risk: [135, 445]

@@ -1,0 +1,18 @@
+# Splunk Field Extraction — packet_analyzer sourcetype
+# Settings → Fields → Field Extractions → New Extraction
+#
+# Destination app : search
+# Apply to        : sourcetype
+# Named           : packet_analyzer
+# Type            : Inline (Rex)
+#
+# Captures the following fields from both traffic lines and alert lines:
+#   log_time   — timestamp from the log entry
+#   alert_type — INFO or ALERT
+#   protocol   — TCP, UDP, ICMP, or OTHER
+#   src_ip     — source IP address
+#   dst_ip     — destination IP address
+#   port       — destination port number (or N/A for ICMP/OTHER)
+#   alert_msg  — full alert message text for ALERT lines
+
+\[(?P<log_time>[^\]]+)\]\s+\[(?P<alert_type>[^\]]+)\]\s+(?:(?P<protocol>TCP|UDP|ICMP|OTHER)\s+\|\s+(?P<src_ip>[\d.]+)\s+->\s+(?P<dst_ip>[\d.]+)\s+\|\s+Port:\s+(?P<port>\S+)|(?P<alert_msg>(?:Possible|Sensitive).+))
